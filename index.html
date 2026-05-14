@@ -337,6 +337,57 @@
   details[open] > summary::after { content: "−"; }
   details .content { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
 
+  /* Three-options strip (used in GSD section) */
+  .three-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 18px 0 24px;
+  }
+  .three-options__card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .three-options__card--current {
+    border-color: var(--accent);
+    background:
+      linear-gradient(180deg, rgba(79,139,255,.10), transparent 60%),
+      var(--panel);
+    box-shadow: 0 0 0 3px rgba(79,139,255,.12);
+  }
+  .three-options__card--current::before {
+    content: "you are here";
+    position: absolute;
+    top: -10px;
+    right: 14px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 6px;
+  }
+  .three-options__weight {
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    font-size: 10.5px;
+    color: var(--ink-muted);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .three-options h4 { margin: 0 0 8px; font-size: 16px; color: var(--ink); }
+  .three-options p { font-size: 13.5px; margin: 0 0 6px; color: var(--ink-soft); line-height: 1.5; }
+  .three-options .for { margin-top: auto; padding-top: 10px; font-size: 13px; color: var(--ink-muted); }
+  .three-options .for strong { color: var(--ink); }
+  @media (max-width: 760px) { .three-options { grid-template-columns: 1fr; } }
+
   /* Two-column concept list (used in GitHub section) */
   .concept-list details > summary {
     display: grid;
@@ -1214,8 +1265,31 @@ Claude › Looking at exporter.ts… proposing this change…</code></pre>
   <div class="kicker">Section 8</div>
   <h2>GSD — Get Shit Done</h2>
 
+  <p>Before reading the rest of this section, remember: <strong>you always have a choice of how much structure to wrap around a piece of work.</strong> There are three levels, and you pick per project. GSD is just the heaviest of them — used only when it actually pays off.</p>
+
+  <div class="three-options">
+    <div class="three-options__card">
+      <div class="three-options__weight">Lightest</div>
+      <h4>Plain Claude Code</h4>
+      <p>Just open Claude in a folder and work. No skill, no framework, no ceremony.</p>
+      <p class="for"><strong>For:</strong> one-off scripts, quick analyses, exploratory hacking, daily ad-hoc work.</p>
+    </div>
+    <div class="three-options__card">
+      <div class="three-options__weight">Middle</div>
+      <h4>A dedicated skill <span class="small">(e.g. <code>/team</code>)</span></h4>
+      <p>One concrete request handled by a packaged multi-phase workflow, end-to-end, in one command.</p>
+      <p class="for"><strong>For:</strong> "build me X today" — a single sitting, single deliverable.</p>
+    </div>
+    <div class="three-options__card three-options__card--current">
+      <div class="three-options__weight">Heaviest</div>
+      <h4>GSD framework</h4>
+      <p>A full project-management layer — roadmap, milestones, phases, audit trail, persistent state.</p>
+      <p class="for"><strong>For:</strong> projects that span weeks or months and need to stay coherent across many sessions and people.</p>
+    </div>
+  </div>
+
   <div class="lead">
-    GSD is an <strong>optional project-management framework</strong> built by the community on top of Claude Code — its source lives at <a href="https://github.com/gsd-build/get-shit-done" target="_blank" rel="noopener">github.com/gsd-build/get-shit-done</a>. We're <strong>not required to use it</strong> — plain Claude Code (with or without our <code>/team</code> skill) handles most of what we do just fine. GSD is here as a tool you <em>can</em> reach for when the problem fits.
+    GSD is <strong>optional</strong>. It's a community framework built on top of Claude Code — source at <a href="https://github.com/gsd-build/get-shit-done" target="_blank" rel="noopener">github.com/gsd-build/get-shit-done</a>. The team doesn't mandate it. Use it when the project's size and time horizon make the heavier scaffolding pay off; stick with the lighter options otherwise. The rest of this section explains what GSD actually gives you, so you can judge.
   </div>
 
   <h3>What it offers</h3>
