@@ -1481,6 +1481,25 @@ One concise entry per tool — the full doc lives at `docs/tools/&lt;tool-name&g
   <h3>Why we build our <em>own</em> skills</h3>
   <p>Out-of-the-box skills are great, but they don't know <em>our</em> project layout, our deployment process, our domain, or our hard-learned rules. When we notice ourselves repeating the same instructions to Claude — "use singular table names, never kill a process on a port, register every issue in <em>Issues - Pending Items.md</em>" — that's the moment to <strong>turn it into a skill</strong> and push it to the marketplace so the whole team gets it forever.</p>
 
+  <h3>How to create a skill — two paths</h3>
+  <p>You don't have to plan a skill before you start. Two routes work — pick whichever fits how the moment came up.</p>
+
+  <div class="vs">
+    <div>
+      <h4>Path A — "I know what skill I want"</h4>
+      <p>You've spotted the repeatable pattern in advance: <em>"I want a skill that takes a CSV and produces a one-page HTML summary in our team's format."</em> You design it upfront, then install Anthropic's <code>skill-creator</code> (an official public skill) and ask it to scaffold a new skill matching your spec. It interviews you, drafts the <code>SKILL.md</code>, and packages it correctly.</p>
+    </div>
+    <div>
+      <h4>Path B — "We just did something useful — can we save it?" <span class="pill blue">most common</span></h4>
+      <p>You worked through a task in Claude Code — analysing a spreadsheet, drafting a report, fixing a recurring kind of bug — and realise: <em>this is something I'll do again.</em> Just say it: <em>"What we just did — can you extract it as a reusable skill?"</em> Claude reads back the conversation, identifies the steps, drafts a <code>SKILL.md</code>, and (optionally) hands it to <code>skill-creator</code> to package properly.</p>
+    </div>
+  </div>
+
+  <div class="callout good">
+    <div class="title">The lesson hidden in Path B</div>
+    <p>Don't pre-think every skill. The best skills often <strong>emerge from work you've already done well</strong> — once you've actually solved the problem, the recipe is obvious; before you've solved it, you'd just be guessing. So when you just nailed something clever, take five minutes to ask Claude <em>"what did we just do? Can we save it as a skill?"</em> before the lesson fades. That five minutes pays back forever.</p>
+  </div>
+
   <details>
     <summary>When should you suggest a new skill?</summary>
     <div class="content">
