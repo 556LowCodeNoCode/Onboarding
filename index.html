@@ -337,6 +337,20 @@
   details[open] > summary::after { content: "−"; }
   details .content { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
 
+  /* Two-column concept list (used in GitHub section) */
+  .concept-list details > summary {
+    display: grid;
+    grid-template-columns: 200px 1fr auto;
+    gap: 18px;
+    align-items: baseline;
+  }
+  .concept-list details > summary > .term { font-weight: 700; color: var(--ink); }
+  .concept-list details > summary > .desc { font-weight: 400; color: var(--ink-soft); }
+  @media (max-width: 600px) {
+    .concept-list details > summary { grid-template-columns: 1fr auto; }
+    .concept-list details > summary > .desc { grid-column: 1 / -1; margin-top: 4px; }
+  }
+
   /* Pills */
   .pill {
     display: inline-block;
@@ -542,8 +556,7 @@
     <p>You don't need to be a developer to build real things anymore. This guide will show you how our team uses <strong>Claude Code</strong> to design, prototype, analyse and ship — using plain English, not code. By the end you'll know what Claude Code is for, when a tool we build needs an LLM inside it, how we organise the work, and what makes our team's way of doing it special.</p>
     <div class="quick-links">
       <a href="#what-is-cc">→ What is Claude Code?</a>
-      <a href="#llm-landscape">→ Build time vs runtime</a>
-      <a href="#picker">→ Decision helper</a>
+      <a href="#daily-use">→ Setting up &amp; daily use</a>
       <a href="#claude-md">→ CLAUDE.md</a>
       <a href="#skills">→ Our skills</a>
     </div>
@@ -1365,45 +1378,109 @@ Claude › Looking at exporter.ts… proposing this change…</code></pre>
 
 <span class="prompt"></span>Check the PR I opened yesterday — any new comments?</code></pre>
 
-  <div class="callout warn">
-    <div class="title">One thing you <em>do</em> install</div>
-    <p>The <code>gh</code> CLI itself, just once, and run <code>gh auth login</code> to connect it to your GitHub account. After that, Claude takes over. If you ever see a "gh not found" error, that's the only fix needed — Claude can even walk you through it.</p>
-  </div>
-
   <div class="callout good">
     <div class="title">The key insight</div>
     <p>GitHub is not a new skill to learn. It's a <strong>system Claude already knows how to drive</strong>. You describe what you want; Claude runs the right <code>gh</code> commands. Your job is to know <em>what</em> you want, not <em>how</em> to do it.</p>
   </div>
 
-  <h3>Concepts worth knowing the names of</h3>
-  <details>
-    <summary><strong>Repository (repo)</strong> — the project's home on GitHub</summary>
-    <div class="content"><p>One folder on your laptop = one repo in our GitHub organisation. You clone a repo to start working on it; you push your changes back when you're done.</p></div>
-  </details>
-  <details>
-    <summary><strong>Commit</strong> — a saved version of your work</summary>
-    <div class="content"><p>A snapshot with a message explaining what changed and why. <strong>A commit lives on your laptop only until you push it.</strong> Smaller, focused commits are better than giant ones — easier to review, easier to roll back.</p></div>
-  </details>
-  <details>
-    <summary><strong>Push</strong> — sending your commits up to GitHub</summary>
-    <div class="content">
-      <p>Committing saves your work <em>locally</em> on your laptop. <strong>Pushing</strong> sends those commits up to GitHub so the rest of the team can see them. Until you push, your changes only exist on your machine — invisible to everyone else and not backed up anywhere off-laptop.</p>
-      <p>The flow is always: <code>commit</code> → <code>push</code>. You can commit many times before pushing; when you push, all those commits land on GitHub at once.</p>
-      <p>In Claude Code you don't need to type git commands — just say <em>"push my changes"</em> and Claude runs the right command. The opposite direction is <strong>pull</strong>: bringing other people's pushed commits down to your laptop.</p>
+  <h3>The one tool to install — GitHub CLI (<code>gh</code>)</h3>
+  <p>Claude doesn't talk to GitHub by magic — it uses a small terminal program called <code>gh</code> (the official GitHub CLI). Think of it as the <strong>bridge</strong> between your terminal and GitHub. Install it once, authenticate it once, and from then on Claude drives it for you in plain English.</p>
+
+  <h4>Install (one-time)</h4>
+  <div class="vs">
+    <div>
+      <h4>Mac</h4>
+<pre style="margin:6px 0 0"><code>brew install gh</code></pre>
+      <p class="small">No Homebrew? Install it first from <a href="https://brew.sh/" target="_blank" rel="noopener">brew.sh</a>.</p>
     </div>
-  </details>
-  <details>
-    <summary><strong>Branch</strong> — a parallel line of work</summary>
-    <div class="content"><p>You're working on a change without disturbing the main version. When ready, you "merge" your branch back. Claude handles all of this for you.</p></div>
-  </details>
-  <details>
-    <summary><strong>Pull request (PR)</strong> — proposing your changes for review</summary>
-    <div class="content"><p>"Hey team, I'm proposing this change — what do you think?" Reviewers comment, you adjust, you merge when approved. The standard way we collaborate.</p></div>
-  </details>
-  <details>
-    <summary><strong>Issue</strong> — a tracked task, bug, or idea</summary>
-    <div class="content"><p>A discussion thread for one specific thing. Tagged, assigned, closed when resolved. Many of our projects keep their backlog as GitHub issues.</p></div>
-  </details>
+    <div>
+      <h4>Windows</h4>
+      <p><strong>WSL (Ubuntu / Debian):</strong></p>
+<pre style="margin:6px 0"><code>sudo apt install gh</code></pre>
+      <p><strong>PowerShell:</strong></p>
+<pre style="margin:6px 0 0"><code>winget install --id GitHub.cli</code></pre>
+      <p class="small">Pick whichever shell you actually run Claude Code from.</p>
+    </div>
+  </div>
+
+  <h4>First-time authentication</h4>
+  <p>Connect <code>gh</code> to your GitHub account:</p>
+<pre><code>gh auth login</code></pre>
+  <p>Follow the prompts: pick <strong>GitHub.com</strong>, pick <strong>HTTPS</strong>, then <strong>"Login with a web browser"</strong>. <code>gh</code> shows a one-time code, opens GitHub in your browser, you paste the code, click <em>Authorize</em>. Done — you won't need to do this again on this machine.</p>
+
+  <div class="callout">
+    <div class="title">Useful <code>gh</code> commands (vocabulary, not homework)</div>
+    <p>You don't need to memorise these — Claude runs them for you. But it helps to recognise them in conversation:</p>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Command</th><th>What it does</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>gh repo clone 556LowCodeNoCode/&lt;repo&gt;</code></td><td>Clone one of our team repos to your laptop</td></tr>
+      <tr><td><code>gh repo view --web</code></td><td>Open the current repo's GitHub page in your browser</td></tr>
+      <tr><td><code>gh repo list 556LowCodeNoCode</code></td><td>List every repo in our org from the terminal</td></tr>
+      <tr><td><code>gh issue list</code></td><td>See open issues in the current repo</td></tr>
+      <tr><td><code>gh issue create</code></td><td>Open a new issue</td></tr>
+      <tr><td><code>gh pr create</code></td><td>Open a pull request for your current branch</td></tr>
+      <tr><td><code>gh pr view --web</code></td><td>Open the current PR's page in your browser</td></tr>
+      <tr><td><code>gh pr checks</code></td><td>See the CI / status checks for the current PR</td></tr>
+      <tr><td><code>gh auth status</code></td><td>Confirm you're logged in and what scopes you have</td></tr>
+    </tbody>
+  </table>
+
+  <p class="small">Hit a <em>"gh: command not found"</em> error? You skipped the install step above. Ask Claude — it'll walk you through it.</p>
+
+  <h3>Concepts worth knowing the names of</h3>
+  <div class="concept-list">
+    <details>
+      <summary>
+        <span class="term">Repository (repo)</span>
+        <span class="desc">the project's home on GitHub</span>
+      </summary>
+      <div class="content"><p>One folder on your laptop = one repo in our GitHub organisation. You clone a repo to start working on it; you push your changes back when you're done.</p></div>
+    </details>
+    <details>
+      <summary>
+        <span class="term">Commit</span>
+        <span class="desc">a saved version of your work</span>
+      </summary>
+      <div class="content"><p>A snapshot with a message explaining what changed and why. <strong>A commit lives on your laptop only until you push it.</strong> Smaller, focused commits are better than giant ones — easier to review, easier to roll back.</p></div>
+    </details>
+    <details>
+      <summary>
+        <span class="term">Push</span>
+        <span class="desc">sending your commits up to GitHub</span>
+      </summary>
+      <div class="content">
+        <p>Committing saves your work <em>locally</em> on your laptop. <strong>Pushing</strong> sends those commits up to GitHub so the rest of the team can see them. Until you push, your changes only exist on your machine — invisible to everyone else and not backed up anywhere off-laptop.</p>
+        <p>The flow is always: <code>commit</code> → <code>push</code>. You can commit many times before pushing; when you push, all those commits land on GitHub at once.</p>
+        <p>In Claude Code you don't need to type git commands — just say <em>"push my changes"</em> and Claude runs the right command. The opposite direction is <strong>pull</strong>: bringing other people's pushed commits down to your laptop.</p>
+      </div>
+    </details>
+    <details>
+      <summary>
+        <span class="term">Branch</span>
+        <span class="desc">a parallel line of work</span>
+      </summary>
+      <div class="content"><p>You're working on a change without disturbing the main version. When ready, you "merge" your branch back. Claude handles all of this for you.</p></div>
+    </details>
+    <details>
+      <summary>
+        <span class="term">Pull request (PR)</span>
+        <span class="desc">proposing your changes for review</span>
+      </summary>
+      <div class="content"><p>"Hey team, I'm proposing this change — what do you think?" Reviewers comment, you adjust, you merge when approved. The standard way we collaborate.</p></div>
+    </details>
+    <details>
+      <summary>
+        <span class="term">Issue</span>
+        <span class="desc">a tracked task, bug, or idea</span>
+      </summary>
+      <div class="content"><p>A discussion thread for one specific thing. Tagged, assigned, closed when resolved. Many of our projects keep their backlog as GitHub issues.</p></div>
+    </details>
+  </div>
 </section>
 
 <!-- ============================================================ -->
