@@ -751,11 +751,12 @@
     Think of Claude Code as <strong>an extremely capable colleague</strong> who lives on your laptop. They can read every file in a project, write new files, run programs, search the web, and talk to GitHub — all by chatting with you in plain English. (And via optional MCP connectors, they can reach into your Email, SharePoint, Jira, etc. — but that's an add-on, not the default.)
   </div>
 
-  <h3>The three things that make it different from "just ChatGPT"</h3>
+  <h3>The four things that make it different from "just ChatGPT"</h3>
   <ol>
     <li><strong>It has hands.</strong> A web chatbot only talks. Claude Code can actually <em>do</em> things — open files, edit them, run scripts, fetch data, push commits to GitHub.</li>
     <li><strong>It has context.</strong> It sees the whole project folder. When you ask "fix the bug in this report," it can read every relevant file before answering.</li>
-    <li><strong>It can specialise.</strong> Through <em>skills</em> (we'll get there), we teach it how <strong>our team</strong> works — our naming conventions, our project shape, our deployment process. So it doesn't just code generically; it codes <strong>our way</strong>.</li>
+    <li><strong>It works in loops, not just turns.</strong> A chat box does one prompt → one reply. Claude Code can <strong>plan, execute, check, adjust, and continue</strong> on its own — for many minutes, across many steps, sometimes splitting work into parallel sub-agents — until the goal is actually met. You don't have to babysit every step. It's a workflow engine, not a Q&amp;A bot.</li>
+    <li><strong>It can specialise.</strong> Through <em>skills</em> (we'll get there), we teach it how <strong>our team</strong> works — our naming conventions, our project shape, our deployment process. So it doesn't just work generically; it works <strong>our way</strong>.</li>
   </ol>
 
   <h3>What a session actually looks like</h3>
@@ -884,6 +885,50 @@ Claude › I'll update slide 6 in `q1-review-draft.pptx`.
     <div class="title">Why this matters for a product/BA</div>
     <p>"Show, don't describe" is gold. Send the error message, send the deck slide, send the mockup you sketched on paper — Claude reads it directly. Almost always faster than typing what you mean.</p>
   </div>
+
+  <h3>How Claude reaches outside your laptop</h3>
+  <p>Out of the box, Claude Code can read and write files in your project folder and run shell commands. But how does it talk to <em>external</em> services — GitHub, your email, SharePoint, Jira, a database? There are <strong>two routes</strong>, and it's worth knowing which is which.</p>
+
+  <div class="vs">
+    <div>
+      <h4>CLI tools <span class="pill">most common</span></h4>
+      <p>Small command-line programs already installed on your machine. When Claude needs one, it just runs the command — same as you would in a terminal.</p>
+      <p class="small"><strong>Examples:</strong> <code>gh</code> (GitHub), <code>git</code>, <code>az</code> (Azure), <code>psql</code> (Postgres), <code>npm</code>, <code>python</code>.</p>
+      <p class="small"><strong>Setup:</strong> install once per machine (e.g. <code>brew install gh</code>). After that, Claude uses them automatically.</p>
+    </div>
+    <div>
+      <h4>MCP servers <span class="pill purple">connectors</span></h4>
+      <p>Long-running "bridges" that expose a specific external service to Claude as if it were a native ability. Stands for <strong>Model Context Protocol</strong>.</p>
+      <p class="small"><strong>Examples:</strong> WorkIQ (Outlook + SharePoint), Atlassian (Jira), Google Drive, Playwright (browser automation).</p>
+      <p class="small"><strong>Setup:</strong> configured once in Claude Code's settings file (or via a plugin). After that, you can just say <em>"search my emails for…"</em> and Claude knows what to do.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="title">The 30-second rule for our audience</div>
+    <p>You don't need to memorise which connector is CLI and which is MCP. Just know: <strong>if Claude can't reach a service you'd expect it to reach</strong> (e.g. "it can't see my SharePoint" or "gh not found"), the fix is to install the missing CLI tool or set up the right MCP server. Ping the team — usually a one-time setup.</p>
+  </div>
+
+  <h3>Managing the conversation's memory (the context window)</h3>
+  <p>Claude has a working-memory limit per conversation, called the <strong>context window</strong>. Think of it like a colleague who can hold maybe 200 pages of working notes in their head at once. Once that fills up, older parts of the conversation start to get summarised or forgotten.</p>
+
+  <p><strong>Signs you're running low:</strong></p>
+  <ul>
+    <li>Claude getting noticeably slower to respond.</li>
+    <li>Claude forgetting things you said earlier in the session.</li>
+    <li>Claude proactively asking to <em>compact</em> the conversation.</li>
+  </ul>
+
+  <p><strong>Two things you can do about it:</strong></p>
+  <ul>
+    <li><code>/compact</code> — ask Claude to summarise the conversation so far. The summary stays, the full transcript is dropped, you keep room for more work. Useful for long sessions on one topic.</li>
+    <li><code>/clear</code>, or just start a fresh <code>claude</code> session — for when you change topic entirely. Cheaper than dragging a giant context with you.</li>
+  </ul>
+
+  <div class="callout good">
+    <div class="title">A simple discipline</div>
+    <p>If you're switching to a fundamentally different task, <strong>start fresh</strong>. Don't pile multiple unrelated tasks into one mega-session. Short, focused sessions are sharper than long, sprawling ones — same as for humans.</p>
+  </div>
 </section>
 
 <!-- ============================================================ -->
@@ -898,8 +943,8 @@ Claude › I'll update slide 6 in `q1-review-draft.pptx`.
   <h3>Six rules that cover most of it</h3>
   <ol>
     <li><strong>Context first, ask second.</strong> "Look at <code>&lt;file&gt;</code>, then…" beats "Build me X."</li>
-    <li><strong>Describe the outcome, not the steps.</strong> Say what <em>done</em> looks like; let Claude figure out how to get there.</li>
-    <li><strong>Pin constraints upfront.</strong> "Don't touch X," "use library Y," "keep it under 100 lines" — state them once, early, not after Claude's already gone the wrong way.</li>
+    <li><strong>Describe the business value, not the steps — and not the tools either.</strong> Say what <em>done</em> looks like at the user / outcome level. Don't prescribe <em>how</em> ("open the CSV, group by email, count > 1…") and don't prescribe <em>which tools</em> ("use pandas / use regex"). Claude usually picks a better path than the one you'd dictate. <em>"Find the duplicate customers in this list and produce a clean version"</em> beats <em>"loop through rows, hash the email column, mark duplicates."</em></li>
+    <li><strong>Pin constraints, not methods.</strong> Constraints bound the <em>space</em> ("no external services," "must run on Windows," "keep it under 100 lines"). Methods dictate the <em>path</em> ("use library X") — and they cost you. State the constraints once, early; leave the path to Claude.</li>
     <li><strong>One thing per prompt.</strong> Don't pile five asks together. Do one, review, then the next.</li>
     <li><strong>Iterate, don't restart.</strong> When something's off, <em>say what's off</em> and let Claude adjust. Don't begin again from scratch.</li>
     <li><strong>Show, don't describe.</strong> Paste the error, paste the screenshot, paste an example row of data — beats three paragraphs of explanation. (Section 3 covers how to paste images.)</li>
