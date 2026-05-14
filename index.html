@@ -1058,7 +1058,7 @@ a fix before changing anything.</code></pre>
     <div>
       <h4><span class="pill purple">2 · Runtime</span> An LLM API key</h4>
       <p>Sometimes the <strong>tool itself</strong> needs AI intelligence to do its job. Every time someone uses the tool, it calls an LLM to make a decision.</p>
-      <p>This requires an <strong>API key</strong> — Anthropic, Gemini, or Azure OpenAI — and the calls cost money each time the tool runs.</p>
+      <p>This requires an <strong>API key</strong> — Anthropic, Gemini, or Azure OpenAI — and the tool calls the chosen LLM at runtime.</p>
       <div class="when">
         <strong>It's an ongoing use, every time the tool runs.</strong>
         <p style="margin:6px 0 0">A user pushes a button. The tool calls an LLM behind the scenes. The LLM is part of how the tool works.</p>
@@ -1105,8 +1105,8 @@ a fix before changing anything.</code></pre>
   </div>
 
   <div class="callout warn">
-    <div class="title">The cost-and-reliability reality check</div>
-    <p>An LLM call is slower than a regular function call and costs money every time. If you can do it deterministically with code, do it with code. Reach for an LLM at runtime only when the task genuinely requires judgment.</p>
+    <div class="title">The reliability check</div>
+    <p>An LLM at runtime is slower and less predictable than a regular function call. If you can do the task deterministically with code, do it with code. Reach for an LLM only when the task genuinely requires <em>judgment</em> — understanding, comparing, summarising, classifying — the things that don't have one right answer.</p>
   </div>
 
   <h3>Which API key for which job</h3>
@@ -1424,6 +1424,11 @@ One concise entry per tool — the full doc lives at `docs/tools/&lt;tool-name&g
 
   <div class="lead">
     A <strong>skill</strong> (or <strong>plugin</strong>) is a packaged instruction set that teaches Claude how to do a specific kind of task <em>our way</em>. Instead of explaining the steps every time, you install it once and Claude follows the recipe whenever the moment is right.
+  </div>
+
+  <div class="callout">
+    <div class="title">If you're bank-curious and not on our team yet</div>
+    <p>The <strong>concept</strong> of skills is universal. Anthropic's official skills and the wider community's public skills work for anyone with Claude Code installed — you don't need org access. You can also build and use your <em>own</em> skills without anything special. Only <em>our marketplace</em> is team-private. Read this section for the concept; install public skills freely; ping us when you'd like access to ours.</p>
   </div>
 
   <h3>Why skills matter</h3>
@@ -1845,7 +1850,37 @@ One concise entry per tool — the full doc lives at `docs/tools/&lt;tool-name&g
 
 <!-- ============================================================ -->
 <section id="cheat">
-  <h2>Quick cheat sheet</h2>
+  <h2>Your first session &amp; cheat sheet</h2>
+
+  <h3>Your first session — 30 minutes from zero to actually using it</h3>
+  <p>If you've read this far, here's a concrete path to get you working with Claude Code today:</p>
+
+  <ol class="steps">
+    <li>
+      <strong>Install Claude Code and the GitHub CLI</strong>
+      <p>Follow Section 3 for your OS. After installing <code>gh</code>, run <code>gh auth login</code> once.</p>
+    </li>
+    <li>
+      <strong>Clone one of our repos that looks interesting</strong>
+      <p>Browse <a href="https://github.com/orgs/556LowCodeNoCode/repositories" target="_blank" rel="noopener">our org</a>, pick something small, then <code>gh repo clone 556LowCodeNoCode/&lt;repo&gt;</code>.</p>
+    </li>
+    <li>
+      <strong>Start Claude Code in that folder</strong>
+      <p><code>cd &lt;repo&gt; &amp;&amp; claude --dangerously-skip-permissions</code>. You'll be inside Claude in seconds.</p>
+    </li>
+    <li>
+      <strong>Try a "good opener" prompt from Section 4</strong>
+      <p>Type: <em>"Look at this folder. Tell me what this project does and show me the current pending items."</em> Claude will read the project, summarise it, and find the <code>Issues - Pending Items.md</code> file. Notice how it works <em>across</em> files.</p>
+    </li>
+    <li>
+      <strong>Install our skills marketplace</strong>
+      <p>Still inside Claude Code: <code>/plugin marketplace add 556LowCodeNoCode/Skills</code> followed by the four <code>/plugin install …</code> commands from Section 8. After this, <code>/team</code>, <code>/claudemd</code>, <code>deploy</code>, and <code>uat-panel</code> are all available.</p>
+    </li>
+  </ol>
+
+  <p class="small">That's it. You're equipped. Everything else in this guide just deepens what you'll already know how to do.</p>
+
+  <h3>Quick cheat sheet</h3>
 
   <table>
     <thead><tr><th>I want to…</th><th>Type this</th></tr></thead>
