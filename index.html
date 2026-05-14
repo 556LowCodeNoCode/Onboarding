@@ -706,9 +706,9 @@ Claude › I'll update slide 6 in `q1-review-draft.pptx`.
       <h4>On Mac <span class="pill blue">paste from clipboard</span></h4>
       <ol>
         <li>Take an area screenshot <strong>to clipboard</strong>: <kbd>⌃</kbd> <kbd>⇧</kbd> <kbd>⌘</kbd> <kbd>4</kbd>, then drag the selection.</li>
-        <li>In Claude Code, just <kbd>⌘</kbd> <kbd>V</kbd>. The image goes straight in.</li>
+        <li>In Claude Code, paste with <kbd>Ctrl</kbd> <kbd>V</kbd> — <strong>yes, Control, not Command</strong>. Claude Code's input loop intercepts <kbd>Ctrl</kbd> <kbd>V</kbd> specifically for image paste; <kbd>⌘</kbd> <kbd>V</kbd> won't work for images even though it's the normal Mac paste shortcut.</li>
       </ol>
-      <p class="small">Note: omitting <kbd>⌃</kbd> (so <kbd>⇧</kbd> <kbd>⌘</kbd> <kbd>4</kbd>) saves the screenshot as a file on the Desktop instead. Either works — paste the clipboard, or drag the file in.</p>
+      <p class="small">Note: omitting <kbd>⌃</kbd> (so <kbd>⇧</kbd> <kbd>⌘</kbd> <kbd>4</kbd>) saves the screenshot to the Desktop as a file instead — drag it into the terminal if you'd rather use a file path.</p>
     </div>
     <div>
       <h4>On Windows <span class="pill warm">save to file first</span></h4>
@@ -1417,7 +1417,7 @@ Claude › Looking at exporter.ts… proposing this change…</code></pre>
       <tr><td>Start Claude Code (preferred)</td><td><code>cd &lt;project-folder&gt; && claude --dangerously-skip-permissions</code></td></tr>
       <tr><td>Resume the last conversation</td><td><code>claude --continue</code> (or <code>claude -c</code>)</td></tr>
       <tr><td>Stop Claude mid-response</td><td>Press <kbd>Esc</kbd></td></tr>
-      <tr><td>Show Claude a screenshot</td><td>Mac: <kbd>⌃</kbd><kbd>⇧</kbd><kbd>⌘</kbd><kbd>4</kbd> → drag → <kbd>⌘</kbd><kbd>V</kbd> in Claude · Win: save the screenshot to a file (e.g. <kbd>Win</kbd><kbd>PrintScreen</kbd>) → drag the file into the terminal window</td></tr>
+      <tr><td>Show Claude a screenshot</td><td>Mac: <kbd>⌃</kbd><kbd>⇧</kbd><kbd>⌘</kbd><kbd>4</kbd> → drag → <kbd>Ctrl</kbd><kbd>V</kbd> in Claude (not <kbd>⌘</kbd><kbd>V</kbd>) · Win: save the screenshot to a file (e.g. <kbd>Win</kbd><kbd>PrintScreen</kbd>) → drag the file into the terminal window</td></tr>
       <tr><td>Create a brand new project folder</td><td>Make an empty folder, <code>cd</code> in, then run <code>/claudemd</code></td></tr>
       <tr><td>Build something in one go</td><td><code>/team build me &lt;the thing&gt;</code></td></tr>
       <tr><td>Start a long-running project</td><td><code>/gsd-new-project</code></td></tr>
