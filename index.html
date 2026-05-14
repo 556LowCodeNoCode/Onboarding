@@ -698,30 +698,37 @@ Claude › I'll update slide 6 in `q1-review-draft.pptx`.
   </ul>
   <p>After stopping, you can just type the clarification and continue. Nothing is lost.</p>
 
-  <h3>Pasting screenshots into the chat</h3>
-  <p>You can paste images straight into a Claude Code conversation — UI mockups, error screenshots, design references, diagrams, a photo of a whiteboard. Claude reads them as part of the context.</p>
+  <h3>Showing Claude a screenshot</h3>
+  <p>You can give Claude UI mockups, error screenshots, design references, diagrams, a photo of a whiteboard — anything visual. Claude reads them as part of the context. The flow is different on each OS:</p>
 
-  <table>
-    <thead>
-      <tr><th>OS</th><th>Capture to clipboard</th><th>Paste into Claude</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Mac</td>
-        <td><kbd>⌃</kbd> <kbd>⇧</kbd> <kbd>⌘</kbd> <kbd>4</kbd>, then drag a selection<br/><span class="small">(area screenshot copied to clipboard, not saved)</span></td>
-        <td><kbd>⌘</kbd> <kbd>V</kbd></td>
-      </tr>
-      <tr>
-        <td>Windows</td>
-        <td><kbd>Win</kbd> <kbd>Shift</kbd> <kbd>S</kbd>, then drag a selection<br/><span class="small">(opens the snipping tool, image lands on clipboard)</span></td>
-        <td><kbd>Ctrl</kbd> <kbd>V</kbd></td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="vs">
+    <div>
+      <h4>On Mac <span class="pill blue">paste from clipboard</span></h4>
+      <ol>
+        <li>Take an area screenshot <strong>to clipboard</strong>: <kbd>⌃</kbd> <kbd>⇧</kbd> <kbd>⌘</kbd> <kbd>4</kbd>, then drag the selection.</li>
+        <li>In Claude Code, just <kbd>⌘</kbd> <kbd>V</kbd>. The image goes straight in.</li>
+      </ol>
+      <p class="small">Note: omitting <kbd>⌃</kbd> (so <kbd>⇧</kbd> <kbd>⌘</kbd> <kbd>4</kbd>) saves the screenshot as a file on the Desktop instead. Either works — paste the clipboard, or drag the file in.</p>
+    </div>
+    <div>
+      <h4>On Windows <span class="pill warm">save to file first</span></h4>
+      <p>The Windows terminal <strong>doesn't accept clipboard image paste</strong>. You need the screenshot as a file:</p>
+      <ol>
+        <li>Capture to file:
+          <ul style="margin-top:4px">
+            <li><kbd>Win</kbd> <kbd>Shift</kbd> <kbd>S</kbd> → drag a selection → click the toast notification → <strong>Save As</strong>, or</li>
+            <li><kbd>Win</kbd> <kbd>PrintScreen</kbd> — auto-saves a full-screen capture to <code>Pictures\Screenshots\</code>.</li>
+          </ul>
+        </li>
+        <li>Give Claude the file path. Easiest way: open File Explorer, find the screenshot, and <strong>drag the file straight into the Claude Code terminal window</strong> — the path drops in automatically. Or type the path manually.</li>
+        <li>Wrap a sentence around it, e.g. <em>"Look at C:\Users\me\Pictures\Screenshots\sketch.png and tell me what you think."</em></li>
+      </ol>
+    </div>
+  </div>
 
   <div class="callout">
     <div class="title">Why this matters for a product/BA</div>
-    <p>"Show, don't describe" is gold. Paste the error message, paste the deck slide, paste the mockup you sketched on paper — Claude reads it directly. Almost always faster than typing what you mean.</p>
+    <p>"Show, don't describe" is gold. Send the error message, send the deck slide, send the mockup you sketched on paper — Claude reads it directly. Almost always faster than typing what you mean.</p>
   </div>
 </section>
 
@@ -1410,7 +1417,7 @@ Claude › Looking at exporter.ts… proposing this change…</code></pre>
       <tr><td>Start Claude Code (preferred)</td><td><code>cd &lt;project-folder&gt; && claude --dangerously-skip-permissions</code></td></tr>
       <tr><td>Resume the last conversation</td><td><code>claude --continue</code> (or <code>claude -c</code>)</td></tr>
       <tr><td>Stop Claude mid-response</td><td>Press <kbd>Esc</kbd></td></tr>
-      <tr><td>Paste a screenshot into the chat</td><td>Mac: <kbd>⌃</kbd><kbd>⇧</kbd><kbd>⌘</kbd><kbd>4</kbd> → drag → <kbd>⌘</kbd><kbd>V</kbd> · Win: <kbd>Win</kbd><kbd>⇧</kbd><kbd>S</kbd> → drag → <kbd>Ctrl</kbd><kbd>V</kbd></td></tr>
+      <tr><td>Show Claude a screenshot</td><td>Mac: <kbd>⌃</kbd><kbd>⇧</kbd><kbd>⌘</kbd><kbd>4</kbd> → drag → <kbd>⌘</kbd><kbd>V</kbd> in Claude · Win: save the screenshot to a file (e.g. <kbd>Win</kbd><kbd>PrintScreen</kbd>) → drag the file into the terminal window</td></tr>
       <tr><td>Create a brand new project folder</td><td>Make an empty folder, <code>cd</code> in, then run <code>/claudemd</code></td></tr>
       <tr><td>Build something in one go</td><td><code>/team build me &lt;the thing&gt;</code></td></tr>
       <tr><td>Start a long-running project</td><td><code>/gsd-new-project</code></td></tr>
