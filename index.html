@@ -567,9 +567,9 @@
     <li><a href="#daily-use">Setting up &amp; daily use</a></li>
   </ul>
 
-  <div class="group-label">Choosing the right tool</div>
+  <div class="group-label">Using LLMs</div>
   <ul>
-    <li><a href="#llm-landscape">Build time vs runtime</a></li>
+    <li><a href="#llm-landscape">Two ways to use LLMs</a></li>
     <li><a href="#picker">Decision helper</a></li>
   </ul>
 
@@ -608,6 +608,7 @@
     <div class="quick-links">
       <a href="#what-is-cc">→ What is Claude Code?</a>
       <a href="#daily-use">→ Setting up &amp; daily use</a>
+      <a href="#llm-landscape">→ Two ways to use LLMs</a>
       <a href="#claude-md">→ CLAUDE.md</a>
       <a href="#skills">→ Our skills</a>
     </div>
@@ -800,7 +801,7 @@ Claude › I'll update slide 6 in `q1-review-draft.pptx`.
 <!-- ============================================================ -->
 <section id="llm-landscape">
   <div class="kicker">Section 4</div>
-  <h2>The two ways we use LLMs in our work</h2>
+  <h2>Two ways to use LLMs — build time vs runtime</h2>
 
   <div class="lead">
     There's <strong>one distinction</strong> that confuses everyone at first. Once you see it, the whole landscape clicks. There are two completely different reasons to reach for an LLM, and they need different tools.
@@ -1071,30 +1072,62 @@ Claude › Looking at exporter.ts… proposing this change…</code></pre>
   <p>The <strong>two layers compose</strong>. Both apply in any project. Where they disagree, the project's <code>CLAUDE.md</code> wins for that project — it's the more specific authority.</p>
 
   <h3>A skeleton project CLAUDE.md to copy</h3>
+  <p>Compact starter — covers the team's standard folder layout, the rules that recur project-to-project, and the slots you fill in per project.</p>
 <pre><code># &lt;Project Name&gt;
 
-## What this project is
-&lt;One-paragraph description. Who uses it, what business problem it solves.&gt;
+&lt;One-paragraph description: what this project does, who uses it, what business problem it solves.&gt;
 
 ## Tech stack
-- &lt;language / framework&gt;
-- &lt;database / external services&gt;
-- &lt;deployment target&gt;
+- Frontend: &lt;framework / language&gt;
+- Backend:  &lt;framework / language&gt;
+- Database: &lt;engine&gt;
+- Deployment: &lt;target&gt;
 
 ## Ports
-- Dev server: &lt;port number&gt;
-- Backend API: &lt;port number&gt;
+- Frontend dev server: &lt;port&gt;
+- Backend API:         &lt;port&gt;
 
-## Conventions
-- &lt;Any naming rules specific to this project&gt;
-- &lt;Any architecture rules — "never use X for Y in this codebase"&gt;
+## Structure (folder layout)
+
+- `docs/design/`     — plans (`plan-NNN-&lt;short-desc&gt;.md`), `project-design.md`, `project-functions.md`
+- `docs/reference/`  — PDFs, schemas, screenshots, other teams' docs
+- `docs/tools/`      — one document per reusable tool built in this project
+- `test_scripts/`    — test runners and fixtures
+- `prompts/`         — reusable prompts, numbered (`001-&lt;name&gt;.md`)
+- `Issues - Pending Items.md` (at root) — pending items on top (most critical first), completed below
+
+## Project-specific rules
+
+- &lt;Naming conventions specific to this project's domain&gt;
+- &lt;Architecture rules — "never X for Y in this codebase"&gt;
+- &lt;Anything that bit us in THIS project that the global CLAUDE.md doesn't already cover&gt;
+
+## Tools built in this project
+
+One concise entry per tool — the full doc lives at `docs/tools/&lt;tool-name&gt;.md`. Claude reads the doc on demand when the tool is relevant.
+
+- **`&lt;tool-name&gt;`** — &lt;one-line description of what the tool does&gt;. See `docs/tools/&lt;tool-name&gt;.md`.
 
 ## Domain glossary
-- **&lt;Term&gt;**: &lt;what it means in our domain&gt;
+
+- **&lt;Term&gt;** — &lt;what it means in this project's domain&gt;.
 
 ## Hard-learned rules
-- &lt;Things that bit us once and we never want to forget&gt;
+
+- &lt;Things that bit us once and we never want to forget — incidents, edge cases, anti-patterns specific to this project&gt;
 </code></pre>
+
+  <div class="callout">
+    <div class="title">A few rules that always apply (no need to repeat per project)</div>
+    <p>These live in the <strong>global</strong> <code>~/.claude/CLAUDE.md</code> — don't paste them into every project's CLAUDE.md:</p>
+    <ul>
+      <li><strong>No silent fallbacks for configuration</strong> — missing config raises an exception, never a default.</li>
+      <li><strong>Database tables are singular</strong> — <code>Customer</code>, not <code>Customers</code>. Plural only for join tables (<code>CustomerTransactions</code>).</li>
+      <li><strong>Tools are TypeScript</strong> unless explicitly stated otherwise.</li>
+      <li><strong>When locating code</strong>, return folder + file + class/function + line number + code extract.</li>
+      <li><strong>No version-control operations</strong> unless explicitly asked.</li>
+    </ul>
+  </div>
 
   <h3>Best practices</h3>
   <ul>
