@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Claude Code — Team Onboarding Guide</title>
+<title>Claude Code — A Practical Onboarding Guide</title>
 <style>
   :root {
     --bg: #0e1116;
@@ -539,12 +539,84 @@
     border: 1px solid var(--border);
   }
   .footer { color: var(--ink-muted); font-size: 13px; text-align: center; padding: 24px 0 0; border-top: 1px solid var(--border); margin-top: 60px; }
+
+  /* Diagrams */
+  .diagram {
+    margin: 18px 0 24px;
+    padding: 18px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .diagram svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    color: var(--ink);
+  }
+
+  /* Section nav (prev/next at end of each section) */
+  .section-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 36px;
+    padding-top: 18px;
+    border-top: 1px dashed var(--border);
+  }
+  .section-nav a {
+    display: inline-flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--ink-soft);
+    border: 1px solid var(--border);
+    background: var(--panel);
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    font-size: 13.5px;
+    max-width: 48%;
+    transition: border-color .15s, color .15s;
+  }
+  .section-nav a:hover { border-color: var(--accent); color: var(--ink); }
+  .section-nav a .label { font-size: 11px; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+  .section-nav a.next { text-align: right; margin-left: auto; }
+  .section-nav a.prev { text-align: left; }
+  .section-nav .spacer { flex: 1; }
+
+  /* In-page TOC at top */
+  .toc {
+    margin: 20px 0 32px;
+    padding: 16px 18px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .toc h4 { margin: 0 0 10px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--ink-muted); }
+  .toc ol {
+    list-style: none;
+    padding: 0; margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 4px 16px;
+  }
+  .toc li { counter-increment: toc; margin: 0; }
+  .toc li::before {
+    content: counter(toc) ".";
+    color: var(--ink-muted);
+    font-variant-numeric: tabular-nums;
+    margin-right: 6px;
+    font-size: 13px;
+  }
+  .toc ol { counter-reset: toc; }
+  .toc a { color: var(--ink); text-decoration: none; font-size: 14px; }
+  .toc a:hover { color: var(--accent); }
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <strong>Claude Code Onboarding</strong>
+  <strong>Claude Code Guide</strong>
   <button onclick="document.querySelector('aside.nav').classList.toggle('open')">Menu</button>
 </div>
 
@@ -565,6 +637,7 @@
     <li><a href="#big-picture">The big picture</a></li>
     <li><a href="#what-is-cc">What is Claude Code?</a></li>
     <li><a href="#daily-use">Setting up &amp; daily use</a></li>
+    <li><a href="#prompting">Talking to Claude</a></li>
   </ul>
 
   <div class="group-label">Using LLMs</div>
@@ -583,7 +656,7 @@
   <ul>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#gsd">GSD</a></li>
-    <li><a href="#gsd-vs-team">Choosing your workflow</a></li>
+    <li><a href="#gsd-vs-team">Choose your workflow</a></li>
   </ul>
 
   <div class="group-label">Working with code</div>
@@ -622,6 +695,24 @@
     <div class="title">The mindset shift</div>
     <p>You're not learning to code. You're learning to <strong>collaborate with an AI that codes</strong>. Your most valuable skill is being able to describe what you want — clearly, with context, with constraints. That's a product skill, not a technical one.</p>
   </div>
+
+  <nav class="toc" aria-label="Section index">
+    <h4>What's in this guide</h4>
+    <ol>
+      <li><a href="#big-picture">The big picture</a></li>
+      <li><a href="#what-is-cc">What is Claude Code?</a></li>
+      <li><a href="#daily-use">Setting up &amp; daily use</a></li>
+      <li><a href="#prompting">Talking to Claude</a></li>
+      <li><a href="#llm-landscape">Two ways to use LLMs</a></li>
+      <li><a href="#how-we-use">How our team uses CC</a></li>
+      <li><a href="#claude-md">CLAUDE.md</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#gsd">GSD</a></li>
+      <li><a href="#gsd-vs-team">Choosing your workflow</a></li>
+      <li><a href="#github">GitHub</a></li>
+      <li><a href="#cheat">Cheat sheet</a></li>
+    </ol>
+  </nav>
 </section>
 
 <!-- ============================================================ -->
@@ -629,6 +720,33 @@
   <div class="kicker">Section 1</div>
   <h2>The big picture in 60 seconds</h2>
   <p>What we do has <strong>three layers</strong>. Each one adds value to the one below it.</p>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three-layers diagram">
+      <defs>
+        <linearGradient id="g1" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#4f8bff" stop-opacity=".22"/>
+          <stop offset="100%" stop-color="#7c5cff" stop-opacity=".22"/>
+        </linearGradient>
+      </defs>
+      <!-- Layer 3 (top, accent) -->
+      <rect x="40" y="20" width="620" height="56" rx="10" fill="url(#g1)" stroke="#4f8bff" stroke-width="1.5"/>
+      <text x="60" y="44" font-family="-apple-system,Segoe UI,sans-serif" font-size="13" fill="currentColor" font-weight="700">③ OUR WAY OF WORKING</text>
+      <text x="60" y="64" font-family="-apple-system,Segoe UI,sans-serif" font-size="12.5" fill="currentColor" opacity=".8">CLAUDE.md · skills marketplace · project shape — turns the tool into <tspan font-style="italic">consistent</tspan> results</text>
+      <!-- Layer 2 (middle) -->
+      <rect x="40" y="84" width="620" height="56" rx="10" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-width="1"/>
+      <text x="60" y="108" font-family="-apple-system,Segoe UI,sans-serif" font-size="13" fill="currentColor" font-weight="700">② CLAUDE CODE</text>
+      <text x="60" y="128" font-family="-apple-system,Segoe UI,sans-serif" font-size="12.5" fill="currentColor" opacity=".8">the brain with hands and eyes — reads files, runs commands, talks to GitHub</text>
+      <!-- Layer 1 (bottom) -->
+      <rect x="40" y="148" width="620" height="56" rx="10" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-width="1"/>
+      <text x="60" y="172" font-family="-apple-system,Segoe UI,sans-serif" font-size="13" fill="currentColor" font-weight="700">① THE LLM</text>
+      <text x="60" y="192" font-family="-apple-system,Segoe UI,sans-serif" font-size="12.5" fill="currentColor" opacity=".8">Claude · GPT · Gemini — pure text in, text out. No access to anything on its own.</text>
+      <!-- Up arrow on the right -->
+      <line x1="680" y1="195" x2="680" y2="35" stroke="currentColor" stroke-opacity=".5" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <polygon points="680,28 676,38 684,38" fill="currentColor" opacity=".7"/>
+      <text x="690" y="118" font-family="-apple-system,Segoe UI,sans-serif" font-size="11" fill="currentColor" opacity=".7" transform="rotate(-90 690 118)">value compounds</text>
+    </svg>
+  </figure>
 
   <div class="cards">
     <div class="card">
@@ -660,7 +778,7 @@
   <h2>What is Claude Code, really?</h2>
 
   <div class="lead">
-    Think of Claude Code as <strong>an extremely capable colleague</strong> who lives on your laptop. They can read every file in a project, write new files, run programs, search the web, talk to GitHub, send emails through your tools — and they do it by chatting with you in plain English.
+    Think of Claude Code as <strong>an extremely capable colleague</strong> who lives on your laptop. They can read every file in a project, write new files, run programs, search the web, and talk to GitHub — all by chatting with you in plain English. (And via optional MCP connectors, they can reach into your Email, SharePoint, Jira, etc. — but that's an add-on, not the default.)
   </div>
 
   <h3>The three things that make it different from "just ChatGPT"</h3>
@@ -745,7 +863,7 @@ Claude › I'll update slide 6 in `q1-review-draft.pptx`.
       <li>You're in a project folder you control — Claude can't escape it.</li>
       <li>You can press <kbd>Esc</kbd> any time to stop Claude mid-action (see below).</li>
       <li>Code changes are revertible via git in seconds.</li>
-      <li>It makes the session roughly 10× more pleasant — no constant interruptions.</li>
+      <li>It makes the session noticeably smoother — no constant interruptions for confirmations.</li>
     </ul>
     <p>Use it as your default. Just know what it means.</p>
   </div>
@@ -799,13 +917,117 @@ Claude › I'll update slide 6 in `q1-review-draft.pptx`.
 </section>
 
 <!-- ============================================================ -->
-<section id="llm-landscape">
+<section id="prompting">
   <div class="kicker">Section 4</div>
+  <h2>Talking to Claude — the basics of a good prompt</h2>
+
+  <div class="lead">
+    The single biggest predictor of a good Claude Code session is <strong>your first prompt</strong>. Get it right and the rest flows. Get it vague and you spend the next half hour redirecting.
+  </div>
+
+  <h3>Six rules that cover most of it</h3>
+  <ol>
+    <li><strong>Context first, ask second.</strong> "Look at <code>&lt;file&gt;</code>, then…" beats "Build me X."</li>
+    <li><strong>Describe the outcome, not the steps.</strong> Say what <em>done</em> looks like; let Claude figure out how to get there.</li>
+    <li><strong>Pin constraints upfront.</strong> "Don't touch X," "use library Y," "keep it under 100 lines" — state them once, early, not after Claude's already gone the wrong way.</li>
+    <li><strong>One thing per prompt.</strong> Don't pile five asks together. Do one, review, then the next.</li>
+    <li><strong>Iterate, don't restart.</strong> When something's off, <em>say what's off</em> and let Claude adjust. Don't begin again from scratch.</li>
+    <li><strong>Show, don't describe.</strong> Paste the error, paste the screenshot, paste an example row of data — beats three paragraphs of explanation. (Section 3 covers how to paste images.)</li>
+  </ol>
+
+  <h3>A bad opener vs a good opener</h3>
+  <div class="vs">
+    <div>
+      <h4>Bad <span class="pill warm">vague</span></h4>
+<pre style="margin:6px 0 0"><code>Fix the dashboard.</code></pre>
+      <p class="small">Which dashboard? Fix what? In which file? With what data? Claude has to ask 4 follow-up questions before it can even start.</p>
+    </div>
+    <div>
+      <h4>Good <span class="pill blue">specific</span></h4>
+<pre style="margin:6px 0 0"><code>Look at `app/dashboard.tsx`. The status badges
+aren't refreshing when I switch users — the
+previous user's badge stays. Reproduce by clicking
+"Switch user" on a row. Find the cause and propose
+a fix before changing anything.</code></pre>
+      <p class="small">Tells Claude <em>where</em> to look, <em>what's wrong</em>, <em>how to reproduce</em>, and <em>what to do</em>. Claude can start work immediately.</p>
+    </div>
+  </div>
+
+  <h3>The rhythm of a session</h3>
+  <p>You're the product person in the loop. Claude proposes; you accept, redirect, or push back. Three steps, looping:</p>
+  <ol>
+    <li><strong>Describe</strong> what you want, with context.</li>
+    <li><strong>Read</strong> what Claude proposes.</li>
+    <li><strong>Accept, refine, or correct</strong> — then go again.</li>
+  </ol>
+  <p>That's the work. No coding required. The skill compounds — better prompts mean better proposals mean faster sessions.</p>
+
+  <div class="callout">
+    <div class="title">A tip that's saved everyone time</div>
+    <p>When Claude misunderstands something, your next message should start with <em>"No, what I meant was…"</em> or <em>"Actually, the goal is…"</em> — not a from-scratch re-explanation. Claude carries context. Correct, don't restart.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="llm-landscape">
+  <div class="kicker">Section 5</div>
   <h2>Two ways to use LLMs — build time vs runtime</h2>
 
   <div class="lead">
     There's <strong>one distinction</strong> that confuses everyone at first. Once you see it, the whole landscape clicks. There are two completely different reasons to reach for an LLM, and they need different tools.
   </div>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Build time vs runtime diagram">
+      <!-- LEFT panel: build time -->
+      <rect x="20" y="20" width="320" height="180" rx="10" fill="none" stroke="#4f8bff" stroke-width="1.5"/>
+      <text x="36" y="42" font-family="-apple-system,Segoe UI,sans-serif" font-size="12" font-weight="700" fill="#4f8bff" letter-spacing="1">1 · BUILD TIME</text>
+      <text x="36" y="60" font-family="-apple-system,Segoe UI,sans-serif" font-size="13" font-weight="700" fill="currentColor">Claude Code</text>
+
+      <!-- You -->
+      <circle cx="65" cy="120" r="14" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <text x="65" y="124" font-family="-apple-system,Segoe UI,sans-serif" font-size="10" fill="currentColor" text-anchor="middle">you</text>
+      <!-- Arrow -->
+      <line x1="86" y1="120" x2="138" y2="120" stroke="currentColor" stroke-opacity=".6" stroke-width="1.5"/>
+      <polygon points="138,120 132,116 132,124" fill="currentColor" opacity=".7"/>
+      <!-- Claude box -->
+      <rect x="140" y="100" width="86" height="40" rx="6" fill="#4f8bff" fill-opacity=".15" stroke="#4f8bff" stroke-width="1.5"/>
+      <text x="183" y="124" font-family="-apple-system,Segoe UI,sans-serif" font-size="11" fill="currentColor" text-anchor="middle" font-weight="600">Claude Code</text>
+      <!-- Arrow -->
+      <line x1="230" y1="120" x2="282" y2="120" stroke="currentColor" stroke-opacity=".6" stroke-width="1.5"/>
+      <polygon points="282,120 276,116 276,124" fill="currentColor" opacity=".7"/>
+      <!-- Tool icon -->
+      <rect x="284" y="105" width="44" height="30" rx="4" fill="currentColor" fill-opacity=".08" stroke="currentColor" stroke-width="1"/>
+      <text x="306" y="124" font-family="-apple-system,Segoe UI,sans-serif" font-size="10" fill="currentColor" text-anchor="middle">tool</text>
+
+      <text x="180" y="172" font-family="-apple-system,Segoe UI,sans-serif" font-size="11.5" fill="currentColor" opacity=".75" text-anchor="middle">one-time: AI helps you</text>
+      <text x="180" y="186" font-family="-apple-system,Segoe UI,sans-serif" font-size="11.5" fill="currentColor" opacity=".75" text-anchor="middle"><tspan font-style="italic">create</tspan> the tool</text>
+
+      <!-- RIGHT panel: runtime -->
+      <rect x="380" y="20" width="320" height="180" rx="10" fill="none" stroke="#7c5cff" stroke-width="1.5"/>
+      <text x="396" y="42" font-family="-apple-system,Segoe UI,sans-serif" font-size="12" font-weight="700" fill="#7c5cff" letter-spacing="1">2 · RUNTIME</text>
+      <text x="396" y="60" font-family="-apple-system,Segoe UI,sans-serif" font-size="13" font-weight="700" fill="currentColor">An LLM API key</text>
+
+      <!-- User -->
+      <circle cx="420" cy="120" r="14" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <text x="420" y="124" font-family="-apple-system,Segoe UI,sans-serif" font-size="10" fill="currentColor" text-anchor="middle">user</text>
+      <!-- Arrow -->
+      <line x1="441" y1="120" x2="493" y2="120" stroke="currentColor" stroke-opacity=".6" stroke-width="1.5"/>
+      <polygon points="493,120 487,116 487,124" fill="currentColor" opacity=".7"/>
+      <!-- Tool box (the same tool, now running) -->
+      <rect x="495" y="100" width="74" height="40" rx="6" fill="currentColor" fill-opacity=".08" stroke="currentColor" stroke-width="1.5"/>
+      <text x="532" y="124" font-family="-apple-system,Segoe UI,sans-serif" font-size="11" fill="currentColor" text-anchor="middle" font-weight="600">the tool</text>
+      <!-- Arrow to LLM -->
+      <line x1="573" y1="120" x2="622" y2="120" stroke="#7c5cff" stroke-width="1.5"/>
+      <polygon points="622,120 616,116 616,124" fill="#7c5cff"/>
+      <!-- LLM cloud -->
+      <rect x="624" y="100" width="62" height="40" rx="20" fill="#7c5cff" fill-opacity=".15" stroke="#7c5cff" stroke-width="1.5"/>
+      <text x="655" y="124" font-family="-apple-system,Segoe UI,sans-serif" font-size="10" fill="currentColor" text-anchor="middle" font-weight="600">LLM API</text>
+
+      <text x="540" y="172" font-family="-apple-system,Segoe UI,sans-serif" font-size="11.5" fill="currentColor" opacity=".75" text-anchor="middle">every-time: the tool calls</text>
+      <text x="540" y="186" font-family="-apple-system,Segoe UI,sans-serif" font-size="11.5" fill="currentColor" opacity=".75" text-anchor="middle">an LLM to do its job</text>
+    </svg>
+  </figure>
 
   <div class="vs">
     <div>
@@ -907,27 +1129,54 @@ Claude › I'll update slide 6 in `q1-review-draft.pptx`.
     <p>If a tool will process real bank data at runtime, its LLM calls <strong>must go through Azure OpenAI</strong>, not directly to Anthropic or Google. This isn't preference — it's compliance. Confidential data leaving the bank's Azure tenant is not acceptable.</p>
   </div>
 
-  <h3>Concrete examples to anchor it</h3>
-  <details>
-    <summary>"Build me a script that renames a folder of files based on their content."</summary>
-    <div class="content"><p><strong>Build with Claude Code only.</strong> Once written, the script runs on its own — no LLM needed at runtime. (Unless the renaming logic itself requires understanding meaning — then it'd need an LLM inside.)</p></div>
-  </details>
-  <details>
-    <summary>"Build a tool that triages incoming complaint emails into 6 categories."</summary>
-    <div class="content"><p><strong>Build with Claude Code, runs with an LLM inside.</strong> Each email needs to be understood to be classified — that's judgment, not pattern matching. Because real customer emails are bank-confidential, the runtime calls must go through <strong>Azure OpenAI</strong>.</p></div>
-  </details>
-  <details>
-    <summary>"Build a dashboard that summarises my Excel data."</summary>
-    <div class="content"><p><strong>Build with Claude Code only.</strong> A dashboard does math, draws charts — that's deterministic. No LLM inside. (Unless you want the dashboard to write a one-paragraph commentary on the numbers — that part would need an LLM at runtime.)</p></div>
-  </details>
-  <details>
-    <summary>"Build a tool that, given a 500-page regulatory PDF, answers questions about it."</summary>
-    <div class="content"><p><strong>Build with Claude Code, runs with an LLM inside.</strong> Answering questions requires comprehension. Because the document is enormous, <strong>Gemini</strong> is a strong fit at runtime — unless the document is bank-confidential, in which case <strong>Azure OpenAI</strong> with chunking is the right answer.</p></div>
-  </details>
-  <details>
-    <summary>"Build a tool that checks whether two contract clauses say the same thing."</summary>
-    <div class="content"><p><strong>Build with Claude Code, runs with an LLM inside.</strong> Semantic comparison can't be done with string matching. Provider depends on whether the contracts are confidential.</p></div>
-  </details>
+  <h3>Concrete examples — scenario → verdict</h3>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:50%">If someone asks you to…</th>
+        <th>Build with</th>
+        <th>Run with</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>"Rename a folder of files based on a fixed rule."</td>
+        <td>Claude Code</td>
+        <td><span class="pill">none</span> the script does it</td>
+      </tr>
+      <tr>
+        <td>"Build a dashboard that summarises my Excel data with charts."</td>
+        <td>Claude Code</td>
+        <td><span class="pill">none</span> deterministic math</td>
+      </tr>
+      <tr>
+        <td>"Triage incoming complaint emails into 6 categories."</td>
+        <td>Claude Code</td>
+        <td><span class="pill warm">Azure OpenAI</span> bank data</td>
+      </tr>
+      <tr>
+        <td>"Pull the loan amount and term from these PDF letters."</td>
+        <td>Claude Code</td>
+        <td><span class="pill warm">Azure OpenAI</span> bank data</td>
+      </tr>
+      <tr>
+        <td>"Given a 500-page regulatory PDF, answer questions about it."</td>
+        <td>Claude Code</td>
+        <td><span class="pill green">Gemini</span> huge context · use <span class="pill warm">Azure OpenAI</span> if confidential</td>
+      </tr>
+      <tr>
+        <td>"Check whether two contract clauses say the same thing."</td>
+        <td>Claude Code</td>
+        <td><span class="pill blue">Anthropic API</span> or <span class="pill warm">Azure OpenAI</span> if confidential</td>
+      </tr>
+      <tr>
+        <td>"Add a one-paragraph commentary to the daily numbers dashboard."</td>
+        <td>Claude Code</td>
+        <td><span class="pill warm">Azure OpenAI</span> data is internal</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="small">Pattern to remember: <strong>Build with</strong> is almost always Claude Code. The interesting decision is <strong>Run with</strong> — and the data sensitivity does most of the picking for you.</p>
 </section>
 
 <!-- ============================================================ -->
@@ -959,7 +1208,7 @@ Claude › I'll update slide 6 in `q1-review-draft.pptx`.
 
 <!-- ============================================================ -->
 <section id="how-we-use">
-  <div class="kicker">Section 5</div>
+  <div class="kicker">Section 6</div>
   <h2>How our team actually uses Claude Code</h2>
   <p>The fastest way to get oriented is to clone one of our projects from GitHub, open it locally, and run <code>claude</code> inside it. You'll see our pattern instantly.</p>
 
@@ -995,7 +1244,7 @@ Claude › Looking at exporter.ts… proposing this change…</code></pre>
 
 <!-- ============================================================ -->
 <section id="claude-md">
-  <div class="kicker">Section 6 · LOAD-BEARING</div>
+  <div class="kicker">Section 7 · LOAD-BEARING</div>
   <h2>CLAUDE.md — the single most important file in any project</h2>
 
   <div class="lead">
@@ -1044,7 +1293,7 @@ Claude › Looking at exporter.ts… proposing this change…</code></pre>
     <div>
       <h4><span class="pill purple">Global</span> ~/.claude/CLAUDE.md</h4>
       <p>Applies to <strong>every project on your machine</strong>. Personal and team-wide defaults that you don't want to repeat in every project.</p>
-      <p class="small">Lives at <code>~/.claude/CLAUDE.md</code>. We share a team version — ask for a copy when you join.</p>
+      <p class="small">Lives at <code>~/.claude/CLAUDE.md</code>. We share a team version — ask any of us for a copy.</p>
       <p><strong>Good things to put here:</strong></p>
       <ul>
         <li>Universal coding rules ("never use silent fallbacks", "singular DB table names")</li>
@@ -1155,7 +1404,7 @@ One concise entry per tool — the full doc lives at `docs/tools/&lt;tool-name&g
 
 <!-- ============================================================ -->
 <section id="skills">
-  <div class="kicker">Section 7</div>
+  <div class="kicker">Section 8</div>
   <h2>Skills — teaching Claude how <em>we</em> work</h2>
 
   <div class="lead">
@@ -1297,7 +1546,7 @@ One concise entry per tool — the full doc lives at `docs/tools/&lt;tool-name&g
 
 <!-- ============================================================ -->
 <section id="gsd">
-  <div class="kicker">Section 8</div>
+  <div class="kicker">Section 9</div>
   <h2>GSD — Get Shit Done</h2>
 
   <p>Before reading the rest of this section, remember: <strong>you always have a choice of how much structure to wrap around a piece of work.</strong> There are three levels, and you pick per project. GSD is just the heaviest of them — used only when it actually pays off.</p>
@@ -1374,60 +1623,25 @@ One concise entry per tool — the full doc lives at `docs/tools/&lt;tool-name&g
 
 <!-- ============================================================ -->
 <section id="gsd-vs-team">
-  <div class="kicker">Section 9</div>
-  <h2>Three ways to drive a project</h2>
+  <div class="kicker">Section 10</div>
+  <h2>Choosing your workflow — a decision aid</h2>
 
-  <p>You have three options for how much structure to wrap around a piece of work. None of them are required; pick whichever fits the task. From lightest to heaviest:</p>
+  <p>You've seen the three options (Section 8 has the side-by-side). This is the short cheat to use when you're staring at a task and wondering which level of structure to wrap around it.</p>
 
-  <h3>Option A — Plain Claude Code</h3>
-  <p>Open a session, type what you need, iterate conversationally. No skill, no framework. <strong>The default for most things.</strong></p>
-  <p class="small">Best for: one-off scripts, ad-hoc analyses, quick tweaks, exploratory work where you don't yet know what you want.</p>
-
-  <h3>Option B — The <code>/team</code> skill</h3>
-  <p>A <strong>single-request orchestrator</strong>. One concrete ask, multiple internal phases, runs end-to-end in one go.</p>
-  <p class="small">Phases: Refiner → codebase scan → investigator → research → planner → designer → coders → reviewer → deps → tests → verifier.</p>
-  <div class="vs">
-    <div style="grid-column: span 2">
-      <strong>Best for:</strong>
-      <ul>
-        <li>You have one concrete thing to build today.</li>
-        <li>"Build me a REST API for X." "Add authentication." "Refactor this module."</li>
-        <li>You want the agents to handle the whole loop without you orchestrating step-by-step.</li>
-        <li>Project is small-to-medium, no long-term roadmap.</li>
-      </ul>
-    </div>
-  </div>
-
-  <h3>Option C — GSD <span class="pill warm">heavier</span></h3>
-  <p>A <strong>long-running project framework</strong>. You manage phases, milestones, and verification across many sessions, with a persistent <code>.planning/</code> folder.</p>
-  <p class="small">Each step is a separate command you run when you're ready: discuss → spec → plan → execute → verify.</p>
-  <div class="vs">
-    <div style="grid-column: span 2">
-      <strong>Best for:</strong>
-      <ul>
-        <li>The project will span weeks or months and you want it to stay coherent across sessions.</li>
-        <li>You want a roadmap, milestones, and clear "done" criteria per phase.</li>
-        <li>Multiple people may pick it up, or you'll pause and resume after long gaps.</li>
-        <li>You need traceability — what was decided, why, when.</li>
-      </ul>
-    </div>
-  </div>
-
-  <h3>The mental model</h3>
   <div class="callout good">
-    <div class="title">Think of it like this</div>
-    <p><strong>Plain CC</strong> = "Let me just do this thing." (no ceremony)<br/>
-       <strong>/team</strong> = "Here's the spec — deliver it end-to-end." (one full sprint of work, one command)<br/>
-       <strong>GSD</strong> = "We're building something over weeks — let's plan it, scope it, build it in phases, and check our work along the way." (only when the heavier scaffolding actually pays off)</p>
+    <div class="title">The mental model</div>
+    <p><strong>Plain Claude Code</strong> = "Let me just do this thing." (no ceremony)<br/>
+       <strong><code>/team</code></strong> = "Here's the spec — deliver it end-to-end." (one full sprint of work, one command)<br/>
+       <strong>GSD</strong> = "We're building something over weeks — let's plan it, scope it, build it in phases, check our work along the way." (only when the heavier scaffolding actually pays off)</p>
   </div>
 
-  <h3>Rough rule of thumb</h3>
+  <h3>Rule-of-thumb table</h3>
   <table>
     <thead>
-      <tr><th>Situation</th><th>Reach for</th></tr>
+      <tr><th>If you're thinking…</th><th>Reach for</th></tr>
     </thead>
     <tbody>
-      <tr><td>"I need a one-off script to compare two Excel files."</td><td>Plain Claude Code</td></tr>
+      <tr><td>"A one-off script to compare two Excel files."</td><td>Plain Claude Code</td></tr>
       <tr><td>"Build me a working prototype dashboard in one go."</td><td><code>/team</code></td></tr>
       <tr><td>"Add one feature to an existing project."</td><td>Plain Claude Code or <code>/team</code> — whichever feels right</td></tr>
       <tr><td>"We're delivering a multi-phase product over the next quarter."</td><td><code>/gsd-new-project</code> (if you want the structure)</td></tr>
@@ -1441,7 +1655,7 @@ One concise entry per tool — the full doc lives at `docs/tools/&lt;tool-name&g
 
 <!-- ============================================================ -->
 <section id="github">
-  <div class="kicker">Section 10</div>
+  <div class="kicker">Section 11</div>
   <h2>GitHub</h2>
 
   <div class="lead">
@@ -1606,7 +1820,7 @@ One concise entry per tool — the full doc lives at `docs/tools/&lt;tool-name&g
       <tr><td>Start Claude Code (preferred)</td><td><code>cd &lt;project-folder&gt; && claude --dangerously-skip-permissions</code></td></tr>
       <tr><td>Resume the last conversation</td><td><code>claude --continue</code> (or <code>claude -c</code>)</td></tr>
       <tr><td>Stop Claude mid-response</td><td>Press <kbd>Esc</kbd></td></tr>
-      <tr><td>Show Claude a screenshot</td><td>Mac: <kbd>⌃</kbd><kbd>⇧</kbd><kbd>⌘</kbd><kbd>4</kbd> → drag → <kbd>Ctrl</kbd><kbd>V</kbd> in Claude (not <kbd>⌘</kbd><kbd>V</kbd>) · Win: save the screenshot to a file (e.g. <kbd>Win</kbd><kbd>PrintScreen</kbd>) → drag the file into the terminal window</td></tr>
+      <tr><td>Show Claude a screenshot</td><td>Mac: <kbd>⌃</kbd> <kbd>⇧</kbd> <kbd>⌘</kbd> <kbd>4</kbd> → drag → <kbd>Ctrl</kbd> <kbd>V</kbd> in Claude (not <kbd>⌘</kbd> <kbd>V</kbd>) · Win: save the screenshot to a file (e.g. <kbd>Win</kbd> <kbd>PrintScreen</kbd>) → drag the file into the terminal window</td></tr>
       <tr><td>Create a brand new project folder</td><td>Make an empty folder, <code>cd</code> in, then run <code>/claudemd</code></td></tr>
       <tr><td>Build something in one go</td><td><code>/team build me &lt;the thing&gt;</code></td></tr>
       <tr><td>Start a long-running project</td><td><code>/gsd-new-project</code></td></tr>
