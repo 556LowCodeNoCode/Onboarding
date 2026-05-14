@@ -555,7 +555,7 @@
     <div class="dot"></div>
     <div>
       <div class="name">Claude Code</div>
-      <div class="sub">Team Onboarding</div>
+      <div class="sub">Onboarding &amp; Reference</div>
     </div>
   </div>
 
@@ -602,9 +602,9 @@
 <!-- ============================================================ -->
 <section id="welcome">
   <div class="hero">
-    <div class="tag">Team · Low Code / No Code</div>
+    <div class="tag">556 Low Code / No Code · A practical Claude Code guide</div>
     <h1>Welcome to Claude Code.</h1>
-    <p>You don't need to be a developer to build real things anymore. This guide will show you how our team uses <strong>Claude Code</strong> to design, prototype, analyse and ship — using plain English, not code. By the end you'll know what Claude Code is for, when a tool we build needs an LLM inside it, how we organise the work, and what makes our team's way of doing it special.</p>
+    <p>You don't need to be a developer to build real things anymore. This guide shows you how the 556 Low Code / No Code team uses <strong>Claude Code</strong> — to design, prototype, analyse and ship — using plain English, not code. It's written for two audiences: <strong>new joiners to our team</strong>, and <strong>any NBG colleague curious to try Claude Code</strong> on their own work. By the end you'll know what Claude Code is for, when a tool needs an LLM inside it, how to organise the work, and which patterns of ours are worth borrowing.</p>
     <div class="quick-links">
       <a href="#what-is-cc">→ What is Claude Code?</a>
       <a href="#daily-use">→ Setting up &amp; daily use</a>
@@ -614,7 +614,8 @@
   </div>
 
   <h2>Who this guide is for</h2>
-  <p>You — a product person, business analyst, or domain expert joining our team. You probably have <strong>zero coding background</strong> and that is completely fine. You won't need it. What you'll need is what you already have: good judgment, the ability to describe a problem clearly, and patience to iterate.</p>
+  <p>You — a product person, business analyst, or domain expert. Maybe you're <strong>joining our team</strong>, or maybe you're <strong>a bank colleague curious to try Claude Code</strong> on your own work. Either way, you probably have <strong>zero coding background</strong> and that is completely fine — you won't need it. What you'll need is what you already have: good judgment, the ability to describe a problem clearly, and patience to iterate.</p>
+  <p>The guide is structured so anyone in the bank can read it and walk away with a working setup and a clear mental model. The parts that are specific to our team (our skills marketplace, our project conventions, our GitHub org) are flagged so you know what's "ours" and what's general — borrow the parts that fit.</p>
 
   <div class="callout good">
     <div class="title">The mindset shift</div>
@@ -1168,6 +1169,7 @@ Claude › Looking at exporter.ts… proposing this change…</code></pre>
 /plugin install deploy@556LowCodeNoCode-skills
 /plugin install uat-panel@556LowCodeNoCode-skills</code></pre>
     <p>You only do this <strong>once per machine</strong>. After that, every team skill is available in every Claude Code session you open. To pick up new skills later: <code>/plugin marketplace update 556LowCodeNoCode-skills</code>.</p>
+    <p class="small" style="margin-top:8px"><strong>Access note:</strong> the marketplace repo is private to the org. If you're on our team you already have access. If you're a bank colleague exploring, ping one of us and we'll add you — the marketplace and the install commands then work the same way.</p>
   </div>
 
   <h3>The skills we use the most</h3>
@@ -1340,7 +1342,7 @@ Claude › Looking at exporter.ts… proposing this change…</code></pre>
 <!-- ============================================================ -->
 <section id="gsd-vs-team">
   <div class="kicker">Section 9</div>
-  <h2>Three ways to drive a project — plain CC, <code>/team</code>, or GSD</h2>
+  <h2>Three ways to drive a project</h2>
 
   <p>You have three options for how much structure to wrap around a piece of work. None of them are required; pick whichever fits the task. From lightest to heaviest:</p>
 
@@ -1415,9 +1417,12 @@ Claude › Looking at exporter.ts… proposing this change…</code></pre>
 
   <div class="callout good">
     <div class="title">Our team's GitHub home</div>
-    <p>You'll have <strong>read access from day one</strong> to:<br/>
-       <a href="https://github.com/orgs/556LowCodeNoCode/repositories" target="_blank" rel="noopener"><strong>github.com/orgs/556LowCodeNoCode/repositories</strong></a></p>
-    <p>Browse what we've built. Clone any repo that interests you, open it locally, and run <code>claude</code> inside to start exploring. This is your map of the team's body of work.</p>
+    <p>Our work lives at <a href="https://github.com/orgs/556LowCodeNoCode/repositories" target="_blank" rel="noopener"><strong>github.com/orgs/556LowCodeNoCode/repositories</strong></a>.</p>
+    <ul style="margin:6px 0 0">
+      <li><strong>If you're joining our team</strong> — you'll be added to the org and have read access on day one.</li>
+      <li><strong>If you're a bank colleague curious to explore</strong> — ping any of us and we'll add you as an outside collaborator on the repos that interest you, or to the org for full read access.</li>
+    </ul>
+    <p style="margin-top:10px">Once you have access: browse what we've built, clone any repo, open it locally, run <code>claude</code> inside to start exploring.</p>
   </div>
 
   <h3>What it is, in plain terms</h3>
@@ -1432,7 +1437,7 @@ Claude › Looking at exporter.ts… proposing this change…</code></pre>
   <ul>
     <li>Our team has its own GitHub organisation — all our work lives there.</li>
     <li>It's how we collaborate on projects without stepping on each other's toes.</li>
-    <li>It's how new team members like you discover what we've built — clone a repo, you have it locally.</li>
+    <li>It's how new joiners — and any bank colleague we've added — discover what we've built. Clone a repo and you have it locally.</li>
     <li>Code reviews ("PR reviews") are where we learn from each other.</li>
   </ul>
 
@@ -1594,7 +1599,7 @@ Claude › Looking at exporter.ts… proposing this change…</code></pre>
   </ul>
 
   <div class="footer">
-    Made for the team · Feel free to improve it — open a PR against the Onboarding repo.
+    Maintained by the 556 Low Code / No Code team · Shared with anyone in the bank who wants to experiment with Claude Code · Improvements welcome — open a PR against the <a href="https://github.com/556LowCodeNoCode/Onboarding" target="_blank" rel="noopener">Onboarding repo</a>.
   </div>
 </section>
 

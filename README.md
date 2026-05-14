@@ -1,6 +1,9 @@
-# 556 Low Code / No Code — Team Onboarding Guide
+# 556 Low Code / No Code — A Practical Claude Code Guide
 
-The team's onboarding guide for new members joining the 556 Low Code / No Code team and starting to use Claude Code.
+Maintained by the 556 Low Code / No Code team. **Two audiences:**
+
+- **New joiners to our team** — everything they need to get productive with Claude Code.
+- **Any NBG colleague curious to try Claude Code** on their own work — borrow whatever fits, ignore what doesn't.
 
 A single-page, interactive guide that explains:
 
